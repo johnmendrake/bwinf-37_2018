@@ -2,11 +2,16 @@ package j1;
 
 public class J1 {
 
+	/**
+	 * The main method of the program. All essential work is done here.
+	 * 
+	 * @param args This program doesn't require arguments.
+	 */
 	public static void main(String[] args) {
 		// repeat procedure for every value of the dice
 		for (int stepDistance = 1; stepDistance <= 6; stepDistance++) {
 			int field = 0; // pointer to the current field
-			int numTry = 0; // counts how often the dice has been rolled
+			int numTry = 0; // counts how often the dice has been rolled to finish the game
 
 			// prepare prevention of endless run
 			boolean[] wasOnField = new boolean[101];
@@ -46,6 +51,14 @@ public class J1 {
 		}
 	}
 
+	/**
+	 * This method is used to keep the overview in the main method. It simply
+	 * resolves the given filed into the one, the ladder is pointing to, if one
+	 * exists. If no ladder exists, pField is returned.
+	 * 
+	 * @param pField the field to be resolved
+	 * @return field after transformation by a ladder
+	 */
 	public static int handleLadders(int pField) {
 		switch (pField) {
 		case 6:
@@ -100,5 +113,4 @@ public class J1 {
 			return pField;
 		}
 	}
-
 }
