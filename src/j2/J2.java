@@ -9,6 +9,11 @@ import java.util.regex.Pattern;
 
 public class J2 {
 
+	/**
+	 * The main method of the program. All essential work is done here.
+	 * 
+	 * @param args files to be observe, given as command line arguments
+	 */
 	public static void main(String[] args) {
 		// when there are no parameters, the program hasn't anything to do
 		if (args.length == 0) {
@@ -40,36 +45,53 @@ public class J2 {
 					List<Integer> parrot = new ArrayList<>();
 					// create scanner on string
 					Scanner parrotSc = new Scanner(parrotStr);
+					// information is divided with spaces here ...
 					parrotSc.useDelimiter(" ");
+					// fill ArrayList with data
 					while (parrotSc.hasNextInt()) {
 						parrot.add(parrotSc.nextInt());
 					}
+
+					// debugging information
 					System.out.printf("parrotStr as array:\t%s\n", parrot);
 
 					System.out.println();
 
 					// process pirate line
+					// get second line from sourceFile
 					String pirateStr = sc.nextLine();
 					System.out.printf("pirateStr:\t%s\n", pirateStr);
+					// create ArrayList
 					List<Integer> pirate = new ArrayList<>();
+					// create scanner on string
 					Scanner pirateSc = new Scanner(pirateStr);
+					// information is divided with spaces here ...
 					pirateSc.useDelimiter(" ");
+					// fill ArrayList with data
 					while (pirateSc.hasNext()) {
 						String tmp = pirateSc.next();
+						// checks if current token is a question mark
 						if (Pattern.matches("[0-9]", tmp)) {
 							pirate.add(Integer.parseInt(tmp));
-						} else {
+						} else { // add a zero to the ArrayList, if it is a question mark
 							pirate.add(0);
 						}
 					}
+
+					// debugging information
 					System.out.printf("pirateStr as array:\t%s\n", pirate);
 
 					System.out.println();
 
 					// adjust arrays
+					// check every value in the pirate list
 					for (int i = 0; i < pirate.size(); i++) {
+						// compare to every value in the parrot list
 						for (int j = 0; j < pirate.size(); j++) {
+							// if the current pirate token was a zero, we don't have to compare
 							if (pirate.get(j) != 0) {
+								// if the lists don't match, make the last parrot value the first and start a
+								// new comparison from the first value
 								if (pirate.get(j) != parrot.get(j)) {
 									parrot.add(0, parrot.get(parrot.size() - 1));
 									parrot.remove(parrot.size() - 1);
@@ -78,8 +100,11 @@ public class J2 {
 							}
 						}
 					}
+
+					// debugging information
 					System.out.println(pirate);
 
+					// still debugging information
 					List<String> tmpPi = new ArrayList<>();
 					for (int i = 0; i < pirate.size(); i++) {
 						tmpPi.add(i, Integer.toString(pirate.get(i)));
@@ -97,6 +122,8 @@ public class J2 {
 						delimiter = delimiter + "-";
 					}
 					System.out.println(delimiter);
+
+					// this is the actual solution
 					System.out.printf("\nDie korrekte Reihenfolge beginnend im Norden lautet:\t(%s)\n%s\n",
 							sourceFile.getName(), parrot);
 
@@ -107,8 +134,8 @@ public class J2 {
 					parrotSc.close();
 					pirateSc.close();
 					sc.close();
-				} catch (FileNotFoundException e) {
-					System.out.println("Warning! Given FILE doesn't exist!");
+				} catch (FileNotFoundException e) { // needed if the given file path is invalid
+					System.out.println("WARNING!!! Given file doesn't exists or filepath is invalid!");
 				}
 			}
 		}
