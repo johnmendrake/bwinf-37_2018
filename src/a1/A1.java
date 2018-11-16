@@ -106,6 +106,18 @@ public class A1 {
 						}
 					}
 
+					// make sure that superstar doesn't follow ANY member of the network
+					if (!potSuperStar.isEmpty()) {
+						for (int targetNum = 0; targetNum < names.size(); targetNum++) {
+							if (!Objects.equals(names.get(targetNum), potSuperStar.get(0))) {
+								if(checkFollowingStatus(potSuperStar.get(0), names.get(targetNum), users, targets)) {
+									potSuperStar.remove(0);
+									break;
+								}
+							}
+						}
+					}
+
 					System.out.println();
 
 					// when there is a name left in the potential superstar list, it is the one we
