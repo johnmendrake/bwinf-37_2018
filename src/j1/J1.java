@@ -86,7 +86,7 @@ public class J1 {
 		case 53:
 			return 21;
 		case 57:
-			return 97;
+			return 96;
 		case 59:
 			return 51;
 		case 62:
