@@ -1,0 +1,7 @@
+Entwickelt und getestet wurden die Aufgaben auf folgendem System:
+	ArchLinux x86_64 (X.org - i3 window manager)
+	Eclipse Photon Java IDE
+
+Manche Aufgaben benötigen ein oder mehrere Kommandozeilenargument, um korrekt ausgeführt zu werden.
+Werden diese nicht angegeben oder existieren die angegeben Dateipfade nicht, wird die Ausgabe des Programms darauf entsprechend hinweisen.
+Die angegebenen Dateien müssen nach exakt dem gleichen Schema aufgebaut sein, wie die Beispiele auf der Website des BWINF (im Ordner "Beispieldateien" enthalten), andernfalls kann es zu Fehlfunktionen führen.
