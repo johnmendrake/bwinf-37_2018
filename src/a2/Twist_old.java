@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
-public class Twist {
+public class Twist_old {
 
 	public static void main(String[] args) {
 		// when there are no parameters, the program hasn't anything to do
