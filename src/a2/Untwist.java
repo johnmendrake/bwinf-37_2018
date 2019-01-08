@@ -3,6 +3,7 @@ package a2;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Scanner;
 
@@ -78,18 +79,18 @@ public class Untwist {
 							}
 						}
 
-//						String output = "";
-//						for (int i = 0; i < words.size(); i++) {
-//							if (i % 2 == 0) {
-//								output += words.get(i);
-//							} else {
-//								output += untwist(words.get(i));
-//							}
-//						}
-//						System.out.println(output);
+						String output = "";
+						for (int i = 0; i < words.size(); i++) {
+							if (i % 2 == 0) {
+								output += words.get(i);
+							} else {
+								output += untwist(words.get(i));
+							}
+						}
+						System.out.println(output);
 					}
 
-					System.out.println(untwist("Muas"));
+//					System.out.println(untwist("Kaffemaschine"));
 
 					sc.close();
 				} catch (FileNotFoundException e) { // needed if the given file path is invalid
@@ -100,54 +101,80 @@ public class Untwist {
 	}
 
 	public static String untwist(String tword) {
-		// get first and last character as well as length from tword
-		char firstChar = Character.toLowerCase(tword.charAt(0));
-		char lastChar = Character.toLowerCase(tword.charAt(tword.length() - 1));
-		int length = tword.length();
+		try {
+			// get first and last character as well as length from tword
+			char firstChar = Character.toLowerCase(tword.charAt(0));
+			char lastChar = Character.toLowerCase(tword.charAt(tword.length() - 1));
+			boolean firstCharIsUpper = Character.isUpperCase(tword.charAt(0));
+			int length = tword.length();
 
-		// count occurrence of characters
-		HashMap<Character, Integer> occ = new HashMap<Character, Integer>(26);
-		for (int i = 0; i < tword.length(); i++) {
-			char curChar = Character.toLowerCase(tword.charAt(i));
-			occ.put(curChar, occ.getOrDefault(curChar, 0) + 1);
-		}
-
-		// get words from the word list sharing the first character and write them to a
-		// scratch list
-		ArrayList<String> tmpWordlist = new ArrayList<String>();
-
-		for (int i = 0; i < wordlist.size(); i++) {
-			String curWord = wordlist.get(i);
-			if (Character.toLowerCase(curWord.charAt(0)) == firstChar) {
-				tmpWordlist.add(curWord);
+			// count occurrence of characters
+			HashMap<Character, Integer> occ = new HashMap<Character, Integer>();
+			for (int pos = 0; pos < tword.length(); pos++) {
+				char curChar = Character.toLowerCase(tword.charAt(pos));
+				occ.put(curChar, occ.getOrDefault(curChar, 0) + 1);
 			}
-		}
 
-		// erase all words with a different length
-		for (int i = 0; i < tmpWordlist.size(); i++) {
-			if (tmpWordlist.get(i).length() != length) {
-				tmpWordlist.remove(i);
-				i--;
+			// get words from the word list sharing the first character and write them to a
+			// scratch list
+			ArrayList<String> tmpWordlist = new ArrayList<String>();
+
+			for (int i = 0; i < wordlist.size(); i++) {
+				String curWord = wordlist.get(i);
+				if (Character.toLowerCase(curWord.charAt(0)) == firstChar) {
+					tmpWordlist.add(curWord);
+				}
 			}
-		}
 
-		// erase all words with a different character at the end
-		for (int i = 0; i < tmpWordlist.size(); i++) {
-			if (Character.toLowerCase(tmpWordlist.get(i).charAt(length - 1)) != lastChar) {
-				tmpWordlist.remove(i);
-				i--;
+			// erase all words with a different length
+			for (int i = 0; i < tmpWordlist.size(); i++) {
+				if (tmpWordlist.get(i).length() != length) {
+					tmpWordlist.remove(i);
+					i--;
+				}
 			}
+
+			// erase all words with a different character at the end
+			for (int i = 0; i < tmpWordlist.size(); i++) {
+				if (Character.toLowerCase(tmpWordlist.get(i).charAt(length - 1)) != lastChar) {
+					tmpWordlist.remove(i);
+					i--;
+				}
+			}
+
+			// for remaining words
+			// count occurrence of characters and compare them to the figures of the passed
+			// words
+			// delete all words with different character count
+			for (int i = 0; i < tmpWordlist.size(); i++) {
+				HashMap<Character, Integer> tmpOcc = new HashMap<Character, Integer>();
+				String tmpWord = tmpWordlist.get(i);
+
+				for (int pos = 0; pos < tword.length(); pos++) {
+					char curChar = Character.toLowerCase(tmpWord.charAt(pos));
+					tmpOcc.put(curChar, tmpOcc.getOrDefault(curChar, 0) + 1);
+				}
+				if (!occ.equals(tmpOcc)) {
+					tmpWordlist.remove(i);
+					i--;
+				}
+			}
+
+			// I can't take grammar into account, so just take the first remaining word and
+			// return it
+			String output;
+			if (firstCharIsUpper) {
+				String outputWord = tmpWordlist.get(0);
+				output = Character.toString(Character.toUpperCase(outputWord.charAt(0)));
+				output += outputWord.substring(1);
+			} else {
+				output = tmpWordlist.get(0);
+				output = output.toLowerCase();
+			}
+
+			return output;
+		} catch (Exception e) {
+			return tword;
 		}
-		System.out.println(tmpWordlist);
-
-		// for remaining words
-		// count occurrence of characters and compare them to the figures of the passed
-		// words
-		// delete all words with different character count
-
-		// I can't take grammar into account, so just take the first remaining word and
-		// return it
-
-		return "";
 	}
 }
