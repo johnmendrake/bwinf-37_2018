@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.Scanner;
 
 public class Untwist {
+	private static ArrayList<String> wordlist = new ArrayList<String>();
 
 	public static void main(String[] args) {
 		// prepare word list
@@ -14,7 +15,6 @@ public class Untwist {
 			File wordlistFile = new File("src/a2/woerterliste.txt");
 			Scanner wlsc = new Scanner(wordlistFile);
 
-			ArrayList<String> wordlist = new ArrayList<String>();
 			while (wlsc.hasNextLine()) {
 				wordlist.add(wlsc.nextLine());
 			}
@@ -89,7 +89,7 @@ public class Untwist {
 //						System.out.println(output);
 					}
 
-					System.out.println(untwist("hlHalo"));
+					System.out.println(untwist("hlalo"));
 
 					sc.close();
 				} catch (FileNotFoundException e) { // needed if the given file path is invalid
@@ -100,24 +100,45 @@ public class Untwist {
 	}
 
 	public static String untwist(String tword) {
+		// get first and last character as well as length from tword
+		char firstChar = Character.toLowerCase(tword.charAt(0));
+		char lastChar = Character.toLowerCase(tword.charAt(tword.length() - 1));
+		int length = tword.length();
+
 		// count occurrence of characters
 		HashMap<Character, Integer> occ = new HashMap<Character, Integer>(26);
 		for (int i = 0; i < tword.length(); i++) {
-			char curChar = tword.charAt(i);
-
-			if (Character.isUpperCase(curChar)) {
-				curChar = Character.toLowerCase(curChar);
-			}
-
+			char curChar = Character.toLowerCase(tword.charAt(i));
 			occ.put(curChar, occ.getOrDefault(curChar, 0) + 1);
 		}
 
 		// get words from the word list sharing the first character and write them to a
 		// scratch list
+		ArrayList<String> tmpWordlist = new ArrayList<String>();
+
+		for (int i = 0; i < wordlist.size(); i++) {
+			String curWord = wordlist.get(i);
+			if (curWord.charAt(0) == firstChar) {
+				tmpWordlist.add(curWord);
+			}
+		}
 
 		// erase all words with a different length
+		for (int i = 0; i < tmpWordlist.size(); i++) {
+			if (tmpWordlist.get(i).length() != length) {
+				tmpWordlist.remove(i);
+			}
+			i--;
+		}
 
 		// erase all words with a different character at the end
+		for (int i = 0; i < tmpWordlist.size(); i++) {
+			if (tmpWordlist.get(i).charAt(length - 1) != lastChar) {
+				tmpWordlist.remove(i);
+			}
+			i--;
+		}
+		System.out.println(tmpWordlist);
 
 		// for remaining words
 		// count occurrence of characters and compare them to the figures of the passed
@@ -129,9 +150,4 @@ public class Untwist {
 
 		return "";
 	}
-
-//	public static int[] letterCount(String pWord) {
-//		int[] output = new int[26];
-//		return output;
-//	}
 }
