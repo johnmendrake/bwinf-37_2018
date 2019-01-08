@@ -89,7 +89,7 @@ public class Untwist {
 //						System.out.println(output);
 					}
 
-					System.out.println(untwist("hlalo"));
+					System.out.println(untwist("Muas"));
 
 					sc.close();
 				} catch (FileNotFoundException e) { // needed if the given file path is invalid
@@ -118,7 +118,7 @@ public class Untwist {
 
 		for (int i = 0; i < wordlist.size(); i++) {
 			String curWord = wordlist.get(i);
-			if (curWord.charAt(0) == firstChar) {
+			if (Character.toLowerCase(curWord.charAt(0)) == firstChar) {
 				tmpWordlist.add(curWord);
 			}
 		}
@@ -127,16 +127,16 @@ public class Untwist {
 		for (int i = 0; i < tmpWordlist.size(); i++) {
 			if (tmpWordlist.get(i).length() != length) {
 				tmpWordlist.remove(i);
+				i--;
 			}
-			i--;
 		}
 
 		// erase all words with a different character at the end
 		for (int i = 0; i < tmpWordlist.size(); i++) {
-			if (tmpWordlist.get(i).charAt(length - 1) != lastChar) {
+			if (Character.toLowerCase(tmpWordlist.get(i).charAt(length - 1)) != lastChar) {
 				tmpWordlist.remove(i);
+				i--;
 			}
-			i--;
 		}
 		System.out.println(tmpWordlist);
 
